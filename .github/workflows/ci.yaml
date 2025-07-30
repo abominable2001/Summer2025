@@ -40,6 +40,8 @@ jobs:
 
       - name: "Docker Pull and Restart Docker"
         run: |
-          ssh -t ubuntu@$SERVER_IP -i pem.pem 'docker pull blackyet1/workshopp'
-          ssh -t ubuntu@$SERVER_IP -i pem.pem 'docker stop nginx && docker rm nginx'
-          ssh -t ubuntu@$SERVER_IP -i pem.pem 'docker run --name nginx -p 80:80 -d blackyet1/workshopp'
+          ssh -t ubuntu@$SERVER_IP -i pem.pem '
+            docker pull blackyet1/workshopp &&
+            docker rm -f nginx || true &&
+            docker run --name nginx -p 80:80 -d blackyet1/workshopp
+          '
